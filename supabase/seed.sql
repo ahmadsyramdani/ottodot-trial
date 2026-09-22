@@ -1,0 +1,42 @@
+-- Parents
+insert into parents (id, name, email) values
+  ('11111111-1111-1111-1111-111111111111', 'Alice Parent', 'alice@example.com'),
+  ('22222222-2222-2222-2222-222222222222', 'Bob Parent',   'bob@example.com'),
+  ('33333333-3333-3333-3333-333333333333', 'Carol Parent', 'carol@example.com')
+on conflict (email) do nothing;
+
+-- Students
+insert into students (id, parent_id, name) values
+  ('a1111111-1111-1111-1111-111111111111', '11111111-1111-1111-1111-111111111111', 'Amy'),
+  ('b1111111-1111-1111-1111-111111111111', '22222222-2222-2222-2222-222222222222', 'Ben'),
+  ('c1111111-1111-1111-1111-111111111111', '33333333-3333-3333-3333-333333333333', 'Cara'),
+  ('c2222222-2222-2222-2222-222222222222', '33333333-3333-3333-3333-333333333333', 'Cody'),
+  ('c3333333-3333-3333-3333-333333333333', '33333333-3333-3333-3333-333333333333', 'Cora')
+on conflict (id) do nothing;
+
+-- Trial classes
+insert into trial_classes (id, subject, starts_at, confirmed_count, capacity) values
+  ('00000000-0000-0000-0000-00000000000a', 'Physics',   now() + interval '1 day',  0, 4),
+  ('00000000-0000-0000-0000-00000000000b', 'Chemistry', now() + interval '2 days', 3, 4),
+  ('00000000-0000-0000-0000-00000000000c', 'Biology',   now() + interval '3 days', 4, 4)
+on conflict (id) do nothing;
+
+-- 3 confirmed students in the Chemistry class
+insert into bookings (student_id, trial_class_id, status) values
+  ('a1111111-1111-1111-1111-111111111111', '00000000-0000-0000-0000-00000000000b', 'confirmed'),
+  ('b1111111-1111-1111-1111-111111111111', '00000000-0000-0000-0000-00000000000b', 'confirmed'),
+  ('c1111111-1111-1111-1111-111111111111', '00000000-0000-0000-0000-00000000000b', 'confirmed');
+
+-- 4 more students under Carol, and 4 confirmed bookings for the Biology class.
+insert into students (id, parent_id, name) values
+  ('d1111111-1111-1111-1111-111111111111', '33333333-3333-3333-3333-333333333333', 'Dan'),
+  ('d2222222-2222-2222-2222-222222222222', '33333333-3333-3333-3333-333333333333', 'Dee'),
+  ('d3333333-3333-3333-3333-333333333333', '33333333-3333-3333-3333-333333333333', 'Dax'),
+  ('d4444444-4444-4444-4444-444444444444', '33333333-3333-3333-3333-333333333333', 'Dot')
+on conflict (id) do nothing;
+
+insert into bookings (student_id, trial_class_id, status) values
+  ('d1111111-1111-1111-1111-111111111111', '00000000-0000-0000-0000-00000000000c', 'confirmed'),
+  ('d2222222-2222-2222-2222-222222222222', '00000000-0000-0000-0000-00000000000c', 'confirmed'),
+  ('d3333333-3333-3333-3333-333333333333', '00000000-0000-0000-0000-00000000000c', 'confirmed'),
+  ('d4444444-4444-4444-4444-444444444444', '00000000-0000-0000-0000-00000000000c', 'confirmed');
